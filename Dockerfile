@@ -13,5 +13,14 @@ WORKDIR /var/www/html
 # Copia os arquivos da aplicação para o diretório de trabalho
 COPY . /var/www/html
 
+# Copia o arquivo de configuração customizado para o Apache
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
+# Ativa o módulo de reescrita do Apache
+RUN a2enmod rewrite
+
+# Reinicia o Apache para aplicar as mudanças
+RUN service apache2 restart
+
 # Define as permissões corretas
 RUN chown -R www-data:www-data /var/www/html
